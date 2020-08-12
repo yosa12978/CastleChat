@@ -1,0 +1,111 @@
+﻿@model CastleChat.Models.Room
+@{
+    ViewData["Title"] = Model.title;
+}
+<script src="https://cdn.tiny.cloud/1/uvgdoko25cnan2u4rt9n9uat33hvoah26qqhieavnv49kfxy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>tinymce.init({ selector: 'textarea' });</script>
+<h1>@Model.title</h1>
+<div class="alert alert-secondary border-0 rounded-0 text-black">
+    <img src="@Model.author.icon" style="width:50px; height:50px;border-radius:50px;" />
+    <span><a href="/Account/?name=@Model.author.username" style="color: black;">@Model.author.username</a></span>
+    <br><span><small>Reg Date: @Model.author.regDate</small></span><br>
+    <span><small>Post Date: @Model.pubDate</small></span><br>
+    <hr>
+    @if (Model.filePath != null)
+    {
+        <img src="@Model.filePath" style="height: 300px; width: auto"><br>
+    }
+    <p>@Html.Raw(Model.text)</p>
+
+</div>
+<script>
+    function togglehide(id) {
+        var x = document.getElementById("Reply_" + id);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>
+
+@foreach (var i in ViewBag.Disc.discussions)
+{
+<div class="alert alert-secondary border-0 rounded-0 text-black">
+    <img src="@i.author.icon" style="width:50px; height:50px;border-radius:50px;" />
+    <span><a href="/Account/?name=@i.author.username" style="color: black;">@i.author.username</a></span>
+    <br><span><small>Reg Date: @i.author.regDate</small></span><br>
+    <span><small>Post Date: @i.pubDate</small></span><br>
+    <hr>
+    @try
+    {
+        @if (i.discussion.id != null)
+        {<div class="ml-2 mr-2 p-2" style="background:#eeeeee; border:1px solid #cccccc;">
+            <img src="@i.author.icon" style="width:50px; height:50px;border-radius:50px;" />
+            <span><a href="/Account/?name=@i.author.username" style="color: black;">@i.author.username</a></span><br><hr>
+            @if (i.discussion.filePath != null)
+            {
+                <img src="@i.discussion.filePath" style="height: 300px; width: auto"><br>
+            }
+            @Html.Raw(i.discussion.text)
+            </div><br>
+        }
+    }
+    catch { }
+    @if (i.filePath != null)
+    {
+        <img src="@i.filePath" style="height: 300px; width: auto"><br>
+    }
+    <p>@Html.Raw(i.text)</p>
+    <br>
+    <button onclick="togglehide(@i.id)" class="btn btn-outline-dark"><i class="fa fa-reply mr-2" aria-hidden="true"></i>Reply</button>
+</div>
+    <div id="Reply_@i.id" style="display: none;">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form action="/Room/AddReply/@Model.id" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="replyid" value="@i.id">
+                <small>*Optional</small>
+                <input type="file" name="file" class="form-control" style="width: 100%;" accept="image/*"><br>
+                <textarea name="text" class="form-control texta" style="width: 100%; height: 300px; resize: none;" id="editor @i.id"></textarea><br>
+                <button type="submit" class="btn btn-outline-secondary" style="width: 100%;"><i class="fa fa-reply mr-2" aria-hidden="true"></i>Reply</button>
+            </form>
+        }
+        else
+        {
+            <div class="col-md-4">
+                <h4><a href="/Account/Login/" class="btn btn-outline-secondary">Login to leave comments</a></h4>
+            </div>
+        }
+        <br>
+    </div>
+}
+
+@if (ViewBag.Disc.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Detail" asp-route-page="@(ViewBag.Disc.PageViewModel.PageNumber - 1)" class="btn btn-outline-secondary">Back</a>
+}
+@if (ViewBag.Disc.PageViewModel.HasNextPage)
+{
+    <a asp-action="Detail" asp-route-page="@(ViewBag.Disc.PageViewModel.PageNumber + 1)" class="btn btn-outline-secondary">Forward</a>
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form action="/Room/AddDiscuss/@Model.id" method="post" enctype="multipart/form-data">
+        <small>*Optional</small>
+        <input type="file" name="file" class="form-control" style="width: 100%;" accept="image/*"><br>
+        <textarea name="text" class="form-control texta" style="width: 100%; height: 250px; resize: none;" id="editor#1"></textarea><br>
+        <button type="submit" class="btn btn-outline-secondary" style="width: 100%;">Reply</button>
+    </form>
+    <br>
+}
+else
+{
+    <div class="col-md-4">
+        <h4><a href="/Account/Login/" class="btn btn-outline-secondary">Login to leave comments</a></h4>
+    </div>
+}
+
+

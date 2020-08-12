@@ -1,0 +1,28 @@
+﻿@model CastleChat.Models.Room
+@{
+    ViewData["Title"] = "Create";
+}
+<h1 class="text-center">Create</h1>
+@if (ViewBag.Error != null)
+{
+    <h4 class="text-danger">@ViewBag.Error</h4>
+}
+
+<script src="https://cdn.tiny.cloud/1/uvgdoko25cnan2u4rt9n9uat33hvoah26qqhieavnv49kfxy/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<center>
+    <div>
+        <div>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="alert alert-secondary border-0" style="width: 100%;">Castle: @ViewBag.Castle.title</div>
+                <input name="title" class="form-control" type="text" placeholder="Room Title" style="width: 100%;" /><br>
+                <textarea name="text" class="form-control" style="width: 100%; height:500px;" id="summernote"></textarea><br>
+                <small>*Optional</small>
+                <input type="file" name="file" class="form-control" style="width: 100%;" accept="image/*"><br>
+                <input type="submit" value="Create" class="btn btn-outline-secondary" style="width: 100%" />
+            </form>
+        </div>
+    </div>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+
+</center>

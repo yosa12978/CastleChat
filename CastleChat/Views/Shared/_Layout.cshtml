@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CastleChat</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500&display=swap" rel="stylesheet">
+    <script src="//cdn.ckeditor.com/4.14.1/full/ckeditor.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <style>
+        h1 {
+            font-family: 'Pirata One', cursive;
+        }
+        .form-control:focus {
+            border-color: #A0A0A0;
+            box-shadow: 0 0 0 0.2rem rgba(160,160,160, 0.25);
+        }
+        div {
+            word-wrap: break-word;
+        }
+        blockquote {
+          background: #f9f9f9;
+          border-left: 10px solid #ccc;
+          margin: 1.5em 10px;
+          padding: 0.5em 10px;
+          
+        }
+        blockquote:before {
+          color: #ccc;
+          font-size: 4em;
+          line-height: 0.1em;
+          margin-right: 0.25em;
+          vertical-align: -0.4em;
+        }
+    </style>
+    <center>
+        <header>
+            <nav style="background-color: #FFFFFF;" class="fixed-top">
+                <div class="container mt-2 mb-2">
+                    <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/1.PNG" style="width: 200px; height: auto;"></a>
+                    <a class="ml-2  btn btn-light" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home mr-2" aria-hidden="true"></i>Home</a>
+                    <a class="ml-2 btn btn-light" asp-area="" asp-controller="Main" asp-action="Search"><i class="fa fa-search mr-2" aria-hidden="true"></i>Search</a>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="ml-2 btn btn-light" asp-area="" asp-controller="Account" asp-action="Index"><i class="fa fa-user-circle mr-2" aria-hidden="true"></i>@User.Identity.Name</a>
+                        <a class="ml-2 btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out mr-2" aria-hidden="true"></i>Logout</a>
+                    }
+                    else
+                    {
+                        <a class="ml-2  btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Login"><i class="fa fa-sign-in mr-2" aria-hidden="true"></i>Login</a>
+                        <a class="ml-2  btn btn-secondary" asp-area="" asp-controller="Account" asp-action="Signup"><i class="fa fa-user-plus mr-2" aria-hidden="true"></i>Signup</a>
+                    }
+                </div>
+                <hr>
+            </nav>
+        </header>
+    </center>
+        <br><br><br><br>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2020 - CastleChat - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
+</body>
+</html>

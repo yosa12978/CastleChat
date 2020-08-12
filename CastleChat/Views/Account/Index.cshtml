@@ -1,0 +1,15 @@
+﻿@model CastleChat.Models.User
+@{
+    ViewData["Title"] = "Index";
+}
+
+<img src="@Model.icon" style="width:100px;height:100px;border-radius:50px;">
+<h1>@Model.username</h1>
+<p>Reg Date: @Model.regDate</p>
+<br>
+<hr>
+@if (User.Identity.Name == Model.username)
+{
+    <a class="ml-2 btn btn-outline-secondary" asp-area="" asp-controller="Account" asp-action="Edit"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i>Edit Account</a>
+    <hr>
+}

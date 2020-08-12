@@ -1,0 +1,25 @@
+﻿@model CastleChat.Models.RoomViewModel
+@{
+    ViewData["Title"] = ViewBag.ParentCastle.title;
+}
+
+<h1 class="text-center">@ViewBag.ParentCastle.title</h1>
+<a href="/Room/Create/@ViewBag.ParentCastle.id" class="btn btn-outline-secondary" style="width: 100%">Create</a><br><br>
+
+@foreach (Room i in Model.rooms)
+{
+    <div class="alert alert-secondary border-0 rounded-0 text-black">
+        <a href="/Room/Detail/@i.id"><strong>>>@i.title</strong></a><br>
+        <span><small>Post Date: @i.pubDate</small></span><br>
+        <span><small>Replies: @i.discussions.Count</small></span>
+
+    </div>
+}
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index" asp-route-page="@(Model.PageViewModel.PageNumber - 1)" class="btn btn-outline-secondary">Back</a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index" asp-route-page="@(Model.PageViewModel.PageNumber + 1)" class="btn btn-outline-secondary">Forward</a>
+}
